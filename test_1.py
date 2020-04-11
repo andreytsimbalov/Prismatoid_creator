@@ -2,10 +2,12 @@ import pygame
 import math as m
 import logging as l
 from pygame.locals import *
+import random
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
+#pyuic5 mainwindow.ui -o mainwindow.py
 
 def prav_fig(r, c, n):  # рисование правильных фигур
     fc = []
@@ -41,12 +43,15 @@ def Figure():
     glEnd()
 
 
+
+
+
 def main():
     pygame.init()
     display = (600, 600)
     pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
     gluPerspective(45, (display[0] / display[1]), 0.1, 52.0)
-    glTranslatef(0.0, 0.0, -7)  # расположение на дисплее
+    glTranslatef(0.0, 0.0, -6)  # расположение на дисплее
 
     x = 0
     y = 0
@@ -166,7 +171,7 @@ def polygonizer_2(v1, v2):
                     h = h_contr
                     j_flag = j
         svaz += [j_flag]
-    print(svaz)
+    #print(svaz)
 
     for i in range(len(svaz)):
         j = svaz[i]
@@ -175,7 +180,7 @@ def polygonizer_2(v1, v2):
         fc += [b]
         b = [i]
         b += [j]
-        print(b)
+        #print(b)
         while j != svaz[(i + 1) % (len(svaz))]:
             j = (j + 1) % (len(v2))
             b = [i]
@@ -183,7 +188,7 @@ def polygonizer_2(v1, v2):
             fc += [b]
             b = [i]
             b += [j]
-            print(b)
+            #print(b)
 
     return fc
 
@@ -222,18 +227,21 @@ def polygonizer(v1, v2):
     return fc
 
 
-radius = 1
-count_of_fertex = 6
 
-# verticies=[[0,0,1]]+prav_fig(1,[0,0,0],count_of_fertex)
-# edges=qwe(count_of_fertex)
 
-v1 = prav_fig(0.5, [0, 0, 1], 3)# + [[-2, 0, 1]]  # правильный Н гранник
-v2 = prav_fig(1, [0, 0, 0], 7)  # правильный М гранник
+if __name__ == "__main__":
+    radius = 1
+    count_of_fertex = 6
 
-print(v1)
+    # verticies=[[0,0,1]]+prav_fig(1,[0,0,0],count_of_fertex)
+    # edges=qwe(count_of_fertex)
 
-verticies = v1 + v2
-edges = polygonizer_2(v1, v2)
+    v1 = prav_fig(0.5, [0, 0, 1], 3)# + [[-2, 0, 1]]  # правильный Н гранник
+    v2 = prav_fig(1, [0, 0, 0], 7)  # правильный М гранник
 
-main()
+    #print(v1)
+
+    verticies = v1 + v2
+    edges = polygonizer_2(v1, v2)
+
+    main()
