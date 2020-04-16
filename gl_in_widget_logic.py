@@ -1,8 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSignal, Qt
-# import OpenGL.GL as gl
-# from OpenGL import GLU as glu
-# from OpenGL import GLUT as glut
 from sub_func import *
 
 
@@ -14,9 +11,18 @@ class GLWidget(QtWidgets.QOpenGLWidget):
     zRotationChanged = pyqtSignal(int)
 
     def __init__(self, parent=None):
-        super().__init__(parent)
+        super(GLWidget, self).__init__(parent)
 
-        self.poly = 0
+        self.poly = []
+        self.model3d = []
+        self.paintingPolies=[]
+        self.textString=""
+        self.reflectance=[]
+        self.sloi =0
+        self.file = "models\model_1.txt"
+        # "models\model_1.txt"
+        # "models\model_2.txt"
+        # "models\model_3.txt"
 
         self.xRot = 0.0
         self.yRot = 0.0
@@ -27,8 +33,29 @@ class GLWidget(QtWidgets.QOpenGLWidget):
         self.zRotAngle = 0.0
         self.gear1Rot = 0
 
+    def setTextString(self,text):
+        a=''
+        if type(text)==list:
+            for i in text:
+                a+=str(i)
+                a+=' '
+            a=a[:len(a)-1]
+        elif type(text)==str:
+            a=text
+        self.textString = a
 
-    def setXRotation(self, angle):
+    def setPaintingPolies(self):
+        text=self.textString
+        a=[]
+        if type(text) == str:
+            for i in text.split():
+                a+=[int(i)]
+        self.paintingPolies=a
+        print(a)
+        self.update()
+
+
+    def setXRotation(self, angle): # повороты по осям
         self.normalizeAngle(angle)
 
         if angle != self.xRot:
@@ -51,41 +78,9 @@ class GLWidget(QtWidgets.QOpenGLWidget):
             self.zRot = angle
             self.zRotationChanged.emit(angle)
             self.update()
-    #
-    # def setXRotation(self, angle):
-    #     #self.normalizeAngle(angle)
-    #
-    #     if angle != self.xRotAngle:
-    #
-    #         self.xRot = angle - self.xRotAngle
-    #         self.xRotAngle = angle
-    #         print(angle)
-    #         # self.xRotationChanged.emit(angle)
-    #         # if self.xRot>0:
-    #         #     self.xRot=4.0
-    #         # else:
-    #         #     self.xRot = -4.0
-    #         self.update()
-    #
-    # def setYRotation(self, angle):
-    #     #self.normalizeAngle(angle)
-    #
-    #     if angle != self.yRotAngle:
-    #         self.yRot = angle - self.yRotAngle
-    #         self.yRotAngle = angle
-    #         self.update()
-    #
-    # def setZRotation(self, angle):
-    #     #self.normalizeAngle(angle)
-    #
-    #     if angle != self.zRotAngle:
-    #         self.zRot = angle - self.zRotAngle
-    #         self.zRotAngle = angle
-    #         self.update()
-
 
     def initializeGL(self):
-        # glClearColor(0, 0, 0, 0)
+        # glClearColor(0, 0, 0, 0) # старое отвещение без отдаления
         # glShadeModel(GL_SMOOTH)
         # glEnable(GL_COLOR_MATERIAL)
         # glEnable(GL_LIGHTING)
@@ -98,23 +93,26 @@ class GLWidget(QtWidgets.QOpenGLWidget):
         # glEnable(GL_LIGHT0)
         # glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
 
-        lightPos = (5.0, 5.0, 10.0, 1.0)
-        reflectance1 = (0.8, 0.1, 0.0, 1.0)
-        reflectance2 = (0.0, 0.8, 0.2, 1.0)
-        reflectance3 = (0.2, 0.2, 1.0, 1.0)
+        lightPos = (5.0, 0, 10.0, 1.0) # новое освещение с отдалением 5 5 10 1
+
 
         glLightfv(GL_LIGHT0, GL_POSITION, lightPos)
         glEnable(GL_LIGHTING)
         glEnable(GL_LIGHT0)
         glEnable(GL_DEPTH_TEST)
 
-        #subfunc()
+        self.changeFigeru()
 
-        self.poly = makePoly(reflectance2,1)
+        # self.model3d = file_reader("models\model_2.txt")
+        # #"models\model_2.txt"
+        # #"models\model_1.txt"
+        # for i in self.model3d:
+        #     self.poly += [i.poly]
 
-        # self.gear1 = self.makeGear(reflectance1, 1.0, 4.0, 1.0, 0.7, 20)
-        # self.gear2 = self.makeGear(reflectance2, 0.5, 2.0, 2.0, 0.7, 10)
-        # self.gear3 = self.makeGear(reflectance3, 1.3, 2.0, 0.5, 0.7, 10)
+        for i in range(len(self.model3d)):
+            self.paintingPolies+=[i]
+
+        self.setTextString(self.paintingPolies)
 
         glEnable(GL_NORMALIZE)
         glClearColor(0.0, 0.0, 0.0, 1.0)
@@ -142,24 +140,53 @@ class GLWidget(QtWidgets.QOpenGLWidget):
         # # отрисовка выпуклой фигуры
         # glPopMatrix()
 
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) # нормальная отрисовка модели
         glPushMatrix()
         glRotated(self.xRot , 1.0, 0.0, 0.0)
         glRotated(self.yRot , 0.0, 1.0, 0.0)
         glRotated(self.zRot , 0.0, 0.0, 1.0)
         #self.drawGear(self.gear1, -3.0, -2.0, 0.0, self.gear1Rot / 16.0)
-        drawPoly(self.poly, -0, -0, -2, self.gear1Rot / 16.0)
+
+
+        for i in self.paintingPolies:
+            drawPoly(self.model3d[i].poly)
+
+        # for i in self.model3d:
+        #     i.drawPoly(self)
+
+
+        #drawPoly(self.model3D, -0, -0, 0, self.gear1Rot / 16.0)
         glPopMatrix()
 
 
     def resizeGL(self, width, height):
-        side = min(width, height)
-        if side < 0: return
+        # side = min(width, height) #ресайз с обрезанием фигуры
+        # if side < 0: return
+        # glViewport((width - side) // 2, (height - side) // 2, side, side)
+        # glMatrixMode(GL_PROJECTION)
+        # glLoadIdentity()
+        # glScale(height / width, 1.0, 1.0)
+        # glMatrixMode(GL_MODELVIEW)
+
+        # reflectance1 = (0.8, 0.1, 0.0, 1.0)
+        # self.poly = makePoly(reflectance1, 0.5)  #
+
+        side = min(width, height) # ресайз с изменением соотношения сторон
+        if side < 0:return
         glViewport((width - side) // 2, (height - side) // 2, side, side)
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
-        glScale(height / width, 1.0, 1.0)
+        glFrustum(-1.0, +1.0, -1.0, 1.0, 5.0, 60.0)
         glMatrixMode(GL_MODELVIEW)
+        glLoadIdentity()
+        glTranslated(0.0, 0.0, -10.0)
+
+    def changeFigeru(self):
+        self.model3d = self.file_reader(self.file)
+        for i in self.model3d:
+            self.poly += [i.poly]
+        self.update()
+
 
     def mousePressEvent(self, event):
         self.lastPos = event.pos()
@@ -192,3 +219,32 @@ class GLWidget(QtWidgets.QOpenGLWidget):
 
         while (angle > 360):
             angle -= 360
+
+    def file_reader(self,file):
+        # s="models\coord.txt"
+        f = open(file, 'r')
+        a = []
+        m = []
+        for s in f:
+            j = [s.split()]
+            for i in j:
+                for k in i:
+                    a += [float(k)]
+        # print(a)
+
+        sloi = int(a[0])
+        self.sloi = sloi
+        modelCount = int(a[1])
+        k = 2
+        self.reflectance=[]
+        for i in range(modelCount):
+
+            reflectance = (random.random(), random.random(), random.random(), 1.0)
+            self.reflectance+=[reflectance]
+            start = k
+            for i in range(sloi):
+                k += int(a[k]) * 2 + 1
+            vi = [] + a[start:k]
+            # print(vi)
+            m += [model3D(modelGenerator(vi, sloi), reflectance)]
+        return m

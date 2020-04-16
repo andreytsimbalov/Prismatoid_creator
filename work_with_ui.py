@@ -4,6 +4,7 @@ from mainwindow import Ui_MainWindow  # импорт нашего сгенери
 import sys
 
 #pyuic5 mainwindow.ui -o mainwindow.py
+#pyuic5 untitled.ui -o untitled.py
 
 class mywindow(QtWidgets.QMainWindow):
     def __init__(self):
@@ -11,21 +12,18 @@ class mywindow(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+
     def resizeEvent(self, event):
-        #print(event)
         x=self.size().width()
         y=self.size().height()
 
-        self.ui.horizontalLayoutWidget.resize(x-100,y-100)
+        self.ui.verticalLayoutWidget.resize(x-50,y-50)
 
-class GtOGLW(QtWidgets.QOpenGLWidget):
-    def __init__(self, parent=None):
-        super().__init__(parent)
 
 app = QtWidgets.QApplication([])
 application = mywindow()
-#application.ui.horizontalLayoutWidget.resize(600,600)
-application.resize(700,700)
+application.resize(800,850)
 application.show()
+application.ui.lineEdit.setText(str(application.ui.openGLWidget.textString))
 
 sys.exit(app.exec())
