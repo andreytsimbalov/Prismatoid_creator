@@ -19,7 +19,7 @@ class GLWidget(QtWidgets.QOpenGLWidget):
         self.textString=""
         self.reflectance=[]
         self.sloi =0
-        self.file = "models\model_1.txt"
+        self.file = "models\model_2.txt"
         # "models\model_1.txt"
         # "models\model_2.txt"
         # "models\model_3.txt"
@@ -149,7 +149,10 @@ class GLWidget(QtWidgets.QOpenGLWidget):
 
 
         for i in self.paintingPolies:
-            drawPoly(self.model3d[i].poly)
+            # drawPoly(self.model3d[i].poly)
+            drawPoly(self.poly[i])
+            #print(self.model3d[i].poly)
+        #print("poly: ",self.model3d[0].poly)
 
         # for i in self.model3d:
         #     i.drawPoly(self)
@@ -185,10 +188,14 @@ class GLWidget(QtWidgets.QOpenGLWidget):
         self.model3d = self.file_reader(self.file)
         for i in self.model3d:
             self.poly += [i.poly]
+        print(self.poly)
         self.update()
 
 
     def mousePressEvent(self, event):
+        # self.changeFigeru()
+        # self.file = "models\model_"+str(random.randint(1,3))+".txt"
+        # self.changeFigeru()
         self.lastPos = event.pos()
 
     def mouseMoveEvent(self, event):

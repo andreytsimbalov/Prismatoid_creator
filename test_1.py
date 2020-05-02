@@ -1,8 +1,8 @@
 
 import numpy as np
 import math as m
-import pygame
-from pygame.locals import *
+# import pygame
+# from pygame.locals import *
 import random
 
 from OpenGL.GL import *
@@ -231,7 +231,7 @@ def polygonizer_2(v1, v2):
 
     asd=len(v1+v2)
     #print(fc[asd:])
-    print(fc)
+    #print(fc)
     if smesh==1:
         n=len(v2)
         m=len(v1)
@@ -253,7 +253,7 @@ def polygonizer_2(v1, v2):
         fc=[]+a
 
 
-    print(fc)
+    #print(fc)
     return fc
 
 
@@ -332,7 +332,7 @@ def polygonizer_trangle(e,n,m):# строт боковые полигоны ги
         for i in range(n+1,k+n-1):
             fc += [[n, i, i+1]]
 
-    print(fc)
+    #print(fc)
     return fc
 
 

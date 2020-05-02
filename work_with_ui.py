@@ -5,6 +5,7 @@ import sys
 
 #pyuic5 mainwindow.ui -o mainwindow.py
 #pyuic5 untitled.ui -o untitled.py
+#pyuic5 test_first_wind.ui -o test_first_wind.py
 
 class mywindow(QtWidgets.QMainWindow):
     def __init__(self):

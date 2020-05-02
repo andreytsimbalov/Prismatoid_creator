@@ -52,11 +52,12 @@ class model3D:
     def __init__(self,ver,reflectance):
         self.verticies=ver
         self.poly = self.makePoly(ver,reflectance)
+        #print(self.poly)
 
     def makePoly(self,ver, reflectance):
         list = glGenLists(1)
         glNewList(list, GL_COMPILE)
-        glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, reflectance)
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, reflectance)
 
         for i in range(len(ver)-1):
             v1=self.verticies[i]
@@ -81,7 +82,7 @@ class model3D:
                     k = i[j]
                     glVertex3d(verticies[k][0], verticies[k][1], verticies[k][2])
             glEnd()
-
+        #glCallList(1)
         glEndList()
         return list
 
@@ -212,4 +213,5 @@ def drawPoly(poly):
     glPushMatrix()
     #glRotated(angle, 0.0, 0.0, 1.0)
     glCallList(poly)
+    #print("123 ",poly)
     glPopMatrix()
