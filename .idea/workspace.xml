@@ -28,7 +28,7 @@
     <property name="last_opened_file_path" value="F:/Default/Desktop/Сессионка/Числаки/Task7_integration" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.work_with_ui">
+  <component name="RunManager" selected="Python.test_first_wind">
     <configuration name="first_wind_copy" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="3D_test_2" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -136,8 +136,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.work_with_ui" />
         <item itemvalue="Python.test_first_wind" />
+        <item itemvalue="Python.work_with_ui" />
         <item itemvalue="Python.mazaika_fw_logic" />
         <item itemvalue="Python.first_wind_copy" />
         <item itemvalue="Python.mainwindow" />
@@ -166,22 +166,22 @@
       <screen x="0" y="0" width="1280" height="689" />
     </state>
     <state x="421" y="100" key="FileChooserDialogImpl/0.0.1280.689@0.0.1280.689" timestamp="1585463483486" />
-    <state width="1259" height="113" key="GridCell.Tab.0.bottom" timestamp="1589022557495">
+    <state width="1259" height="113" key="GridCell.Tab.0.bottom" timestamp="1589043709149">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state width="1259" height="113" key="GridCell.Tab.0.bottom/0.0.1280.689@0.0.1280.689" timestamp="1589022557495" />
-    <state width="1259" height="113" key="GridCell.Tab.0.center" timestamp="1589022557495">
+    <state width="1259" height="113" key="GridCell.Tab.0.bottom/0.0.1280.689@0.0.1280.689" timestamp="1589043709149" />
+    <state width="1259" height="113" key="GridCell.Tab.0.center" timestamp="1589043709148">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state width="1259" height="113" key="GridCell.Tab.0.center/0.0.1280.689@0.0.1280.689" timestamp="1589022557495" />
-    <state width="1259" height="113" key="GridCell.Tab.0.left" timestamp="1589022557495">
+    <state width="1259" height="113" key="GridCell.Tab.0.center/0.0.1280.689@0.0.1280.689" timestamp="1589043709148" />
+    <state width="1259" height="113" key="GridCell.Tab.0.left" timestamp="1589043709148">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state width="1259" height="113" key="GridCell.Tab.0.left/0.0.1280.689@0.0.1280.689" timestamp="1589022557495" />
-    <state width="1259" height="113" key="GridCell.Tab.0.right" timestamp="1589022557495">
+    <state width="1259" height="113" key="GridCell.Tab.0.left/0.0.1280.689@0.0.1280.689" timestamp="1589043709148" />
+    <state width="1259" height="113" key="GridCell.Tab.0.right" timestamp="1589043709148">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state width="1259" height="113" key="GridCell.Tab.0.right/0.0.1280.689@0.0.1280.689" timestamp="1589022557495" />
+    <state width="1259" height="113" key="GridCell.Tab.0.right/0.0.1280.689@0.0.1280.689" timestamp="1589043709148" />
     <state width="1259" height="208" key="GridCell.Tab.1.bottom" timestamp="1588444419943">
       <screen x="0" y="0" width="1280" height="689" />
     </state>

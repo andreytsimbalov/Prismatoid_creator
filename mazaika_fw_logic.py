@@ -395,9 +395,9 @@ class mazaika:
 
             f = open('text.txt', 'w')
 
-            matr=[]
-            matr1=[]
-            matr2=[]
+            matr = []
+            matr1 = []
+            matr2 = []
             numb_lay = len(self.objects.activ_lines)
             if numb_lay == 1:
                 numb_lay = 2
@@ -438,7 +438,7 @@ class mazaika:
                             cent = [self.objects.lines[0][0][0], self.objects.lines[0][0][1]]
                             pa = rast(cent, self.objects.activ_lines[sl][(i + 1) % 6])
                             pb = rast(cent, self.objects.activ_lines[sl][(i - 1) % 6])
-                            pc = 2 * pa * pb * m.cos(3.14 / 3) / (pa + pb)+0.001
+                            pc = 2 * pa * pb * m.cos(3.14 / 3) / (pa + pb) + 0.001
                             v1 = self.objects.lines[i]
                             pv = [cent[0] + (v1[1][0] - v1[0][0]) * pc / rast(v1[0], v1[1]),
                                   cent[1] + (v1[1][1] - v1[0][1]) * pc / rast(v1[0], v1[1])]
@@ -448,61 +448,73 @@ class mazaika:
                 for i in range(len(self.objects.activ_lines[sl])):
                     if (self.objects.activ_lines[sl][i] != [-100, -100]) and (
                             self.objects.activ_lines[sl][(i - 1) % len(self.objects.lines)] != [-100, -100]):
-                        j_fl=0
+                        j_fl = 0
 
                         for s in range(len(self.objects.kl_sopr)):
-                            count_kl=0
+                            count_kl = 0
                             for k in self.objects.kl_sopr[s].layers[sl]:
-                                if rast(k,self.objects.lines[i][1])<0.01:
-                                    count_kl+=1
-                                if rast(k,self.objects.lines[(i - 1) % len(self.objects.lines)][1])<0.01:
-                                    count_kl+=1
-                            if count_kl==2:
-                                j_fl=s
+                                if rast(k, self.objects.lines[i][1]) < 0.01:
+                                    count_kl += 1
+                                if rast(k, self.objects.lines[(i - 1) % len(self.objects.lines)][1]) < 0.01:
+                                    count_kl += 1
+                            if count_kl == 2:
+                                j_fl = s
                                 break
-                        matr+=[[j_fl,sl,i]]
-
+                        matr += [[j_fl, sl, i]]
 
                 for i in range(len(self.objects.activ_lines[sl])):
                     if (self.objects.activ_lines[sl][i] != [-100, -100]) and (
                             self.objects.activ_lines[sl][(i - 1) % len(self.objects.lines)] == [-100, -100]):
-                        j_fl=-1
+                        j_fl = -1
 
                         for s in range(len(self.objects.kl_sopr)):
-                            count_kl=0
+                            count_kl = 0
                             for k in self.objects.kl_sopr[s].layers[sl]:
-                                if rast(k,self.objects.lines[i][1])<0.01:
-                                    count_kl+=1
-                                if rast(k,self.objects.lines[(i - 1) % len(self.objects.lines)][1])<0.01:
-                                    count_kl+=1
-                            if count_kl==2:
-                                j_fl=s
+                                if rast(k, self.objects.lines[i][1]) < 0.01:
+                                    count_kl += 1
+                                if rast(k, self.objects.lines[(i - 1) % len(self.objects.lines)][1]) < 0.01:
+                                    count_kl += 1
+                            if count_kl == 2:
+                                j_fl = s
                                 break
-                        if j_fl!=-1:
-                            matr1+=[[j_fl,sl,i]]
+                        if j_fl != -1:
+                            matr1 += [[j_fl, sl, i]]
                             print("ADD", matr1)
 
                 for i in range(len(self.objects.activ_lines[sl])):
                     if (self.objects.activ_lines[sl][i] != [-100, -100]) and (
                             self.objects.activ_lines[sl][(i + 1) % len(self.objects.lines)] == [-100, -100]):
-                        j_fl=-1
+                        j_fl = -1
 
                         for s in range(len(self.objects.kl_sopr)):
-                            count_kl=0
+                            count_kl = 0
                             for k in self.objects.kl_sopr[s].layers[sl]:
-                                if rast(k,self.objects.lines[i][1])<0.01:
-                                    count_kl+=1
-                                if rast(k,self.objects.lines[(i + 1) % len(self.objects.lines)][1])<0.01:
-                                    count_kl+=1
-                            if count_kl==2:
-                                j_fl=s
+                                if rast(k, self.objects.lines[i][1]) < 0.01:
+                                    count_kl += 1
+                                if rast(k, self.objects.lines[(i + 1) % len(self.objects.lines)][1]) < 0.01:
+                                    count_kl += 1
+                            if count_kl == 2:
+                                j_fl = s
                                 break
                         if j_fl != -1:
-                            matr2+=[[j_fl,sl,i]]
+                            matr2 += [[j_fl, sl, i]]
                             print("ADD", matr2)
 
+                for i in range(len(self.objects.activ_lines[sl])):
+                    # print(self.objects.lines[i])
+                    if self.objects.activ_lines[sl][i] != [-100, -100]:
+                        if rast(self.objects.activ_lines[sl][i], self.objects.lines[i][1]) < 0.01:
+                            cent = [self.objects.lines[0][0][0], self.objects.lines[0][0][1]]
+                            # print("probleMA")
+                            # pa = rast(cent, self.objects.activ_lines[sl][(i + 1) % 6])
+                            # pb = rast(cent, self.objects.activ_lines[sl][(i - 1) % 6])
+                            # pc = 2 * pa * pb * m.cos(3.14 / 3) / (pa + pb) + 0.001
+                            v1 = self.objects.lines[i]
+                            pv = [cent[0] + (v1[1][0] - v1[0][0]) * 0.99,
+                                  cent[1] + (v1[1][1] - v1[0][1]) * 0.99]
 
-
+                            # print("otnoshenie")
+                            # self.objects.activ_lines[sl][i] = pv
 
                 for i in self.objects.activ_lines[sl]:
                     count += 1
@@ -518,7 +530,9 @@ class mazaika:
                 if c_nach > c_stat:
                     c_stat = c_nach
 
-                if (c_stat >= len(self.objects.lines) // 2) and (a != []):
+                print("POINT ADDEDEDEDEEDE", c_stat, len(self.objects.lines))
+
+                if (c_stat + 1 >= len(self.objects.lines) // 2) and (a != []):
                     print("POINT ADDED", c_stat, len(self.objects.lines))
                     a += [[self.objects.lines[0][0][0], self.objects.lines[0][0][1]]]
 
@@ -556,41 +570,37 @@ class mazaika:
                     f.write(str(i[0]) + ' ' + str(i[1]) + '\n')
                 print(sloi)
 
-
-
             for i in range(len(self.objects.kl_sopr)):
                 for j in range(len(self.objects.kl_sopr[i].layers)):
-                    j_fl=-1
-                    j2_fl=-1
+                    j_fl = -1
+                    j2_fl = -1
                     for mi in matr:
-                        if (mi[0]==i)and(mi[1]==j):
-                            j_fl=mi[2]
+                        if (mi[0] == i) and (mi[1] == j):
+                            j_fl = mi[2]
 
                     for mi in matr1:
-                        if (mi[0]==i)and(mi[1]==j):
-                            j2_fl=mi[2]
+                        if (mi[0] == i) and (mi[1] == j):
+                            j2_fl = mi[2]
                     for mi in matr2:
-                        if (mi[0]==i)and(mi[1]==j):
-                            j2_fl=mi[2]
-                    zxc=len(self.objects.kl_sopr[i].layers[j])
-                    if (j_fl!=-1)or(j2_fl!=-1):
-                        zxc+=1
+                        if (mi[0] == i) and (mi[1] == j):
+                            j2_fl = mi[2]
+                    zxc = len(self.objects.kl_sopr[i].layers[j])
+                    if (j_fl != -1) or (j2_fl != -1):
+                        zxc += 1
                     f.write(str(zxc) + '\n')
-                    if j2_fl!=-1:
+                    if j2_fl != -1:
                         r = self.objects.activ_lines[j][j2_fl]
                         f.write(str(r[0]) + ' ' + str(r[1]) + '\n')
                         print("qqqqqqqqqqqqqqqqqqq")
                     for k in self.objects.kl_sopr[i].layers[j]:
-                        if (rast(k,self.objects.lines[0][0])<0.01)and(j_fl!=-1):
-                            r=self.objects.activ_lines[j][j_fl]
+                        if (rast(k, self.objects.lines[0][0]) < 0.01) and (j_fl != -1):
+                            r = self.objects.activ_lines[j][j_fl]
                             f.write(str(r[0]) + ' ' + str(r[1]) + '\n')
                             r = self.objects.activ_lines[j][(j_fl - 1) % len(self.objects.lines)]
                             f.write(str(r[0]) + ' ' + str(r[1]) + '\n')
 
                         else:
                             f.write(str(k[0]) + ' ' + str(k[1]) + '\n')
-
-
 
             # for i in range(len(self.objects.kl_sopr)):
             #     for j in self.objects.kl_sopr[i].layers:

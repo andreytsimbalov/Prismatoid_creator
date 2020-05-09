@@ -349,7 +349,9 @@ def normal(v):  # нормаль к прямой по трём точкам
     try:
         x = np.linalg.solve(a, b)
     except:
-        print('error_normal')
+        # print('error_normal')
+
+
         # print(a)
         # print(np.linalg.matrix_rank(a))
 
@@ -357,6 +359,7 @@ def normal(v):  # нормаль к прямой по трём точкам
         x = [1, 1, 1]
         # x=[random.random()-0.5,random.random()-0.5,random.random()-0.5]
         # x=[0,0,0]
+        # return [-100,-100,-100]
     dlina = (x[0] ** 2 + x[1] ** 2 + x[2] ** 2) ** 0.5
     if dlina <= 0:
         print('error_dlina')
@@ -407,7 +410,7 @@ def modelGenerator(v, sloi):
             vsl += [vi]
         vsl=chasovshik(vsl)#разворачивает точки по часовой стрелке
         fc += [vsl]
-    print("fcccc",fc)
+    #print("fcccc",fc)
     return fc
 
 
@@ -434,11 +437,25 @@ def center_2d(v):
 
 
 def chasovshik(a):
+    # print("a do",a)
     c = center_2d(a)
     bl = []
     br = []
     max_x = c[0]
     min_x = c[0]
+    j=0
+    length=len(a)
+    while j<length:
+        for k in range(j+1,len(a)):
+            if rast(a[j],a[k])<0.01:
+                a.remove(a[k])
+                j=-1
+                break
+        j+=1
+        length = len(a)
+
+
+
     for i in range(len(a)):
         if a[i][0] > max_x:
             max_x = a[i][0]
@@ -472,41 +489,80 @@ def chasovshik(a):
     fc=[a[startrl]]
 
     j=startrl
+    j_st=-1
     v1=[0,-1]
+
+
     while j!=finrl:
         # print(fc)
+        ra = 100
+        if j_st==j:
+            break
         j_st=j
-        min_angle=3.14
+
+        min_angle=3.15
+        # print("A", len(a))
+        # print("FC", len(fc))
         for i in range(len(a)):
             if not(a[i] in fc):
                 v2=[a[i][0]-a[j_st][0],a[i][1]-a[j_st][1]]
                 if (angle_between(v1,v2)<min_angle)and(v2[0]<0):
-                    print("v2", v2)
+
+                    # if angle_between(v1, v2) - min_angle<0.01:
+                    #     if ra>rast(a[i],a[j_st]):
+                    #         j=i
+                    #         ra=rast(a[i],a[j_st])
+                    # else:
+                    #     ra=100
+                    #     j = i
+                    # if abs(min_angle-angle_between(v1,v2))>0.02:
+                    #     ra=100
                     j=i
-                    min_angle=angle_between(v1,v2)
+                    min_angle=angle_between(v1,v2)+0.01
+
                     # print("m_a",min_angle)
         fc+=[a[j]]
 
     j = startlr
+
     if not (a[j] in fc):
         fc+=[a[j]]
     v1 = [0, 1]
     while j != finlr:
         # print("fcfcfc",fc)
+        ra = 100
         j_st=j
-        min_angle = 3.14
+        min_angle = 3.15
         for i in range(len(a)):
             if not (a[i] in fc[1:]):
                 v2 = [a[i][0] - a[j_st][0], a[i][1] - a[j_st][1]]
                 if (angle_between(v1, v2) < min_angle)and(v2[0]>0):
-                    print("v2",v2)
+                    # if angle_between(v1, v2) - min_angle < 0.01:
+                    #     if ra > rast(a[i], a[j_st]):
+                    #         j = i
+                    #         ra = rast(a[i], a[j_st])
+                    # else:
+                    #     j = i
+
                     j = i
                     min_angle = angle_between(v1, v2)
         if j != startrl:
             fc += [a[j]]
 
-    # print("A", a)
-    # print("FC", fc)
+    # print("A", len(a))
+    # print("FC", len(fc))
+    if len(a)>len(fc):
+        for i in a:
+            if not(i in fc):
+                j=0
+                while (len(a)>len(fc))and(j<len(fc)):
+                    if abs(rast(i,fc[j])+rast(i,fc[(j+1)%len(fc)])-rast(fc[j],fc[(j+1)%len(fc)]))<0.02:
+
+                        fc=fc[:j+1]+[i]+fc[j+1:]
+                        # print(fc)
+                    j+=1
+    # print("A", len(a))
+    # print("FC", len(fc))
     return fc
 
 

@@ -59,10 +59,13 @@ class model3D:
             verticies = v1 + v2
             edges += [polygonizer_2(v1, v2)]
         self.edges = edges
-        self.poly = self.makePoly(reflectance)
+        self.reflectance=reflectance
+        self.makePoly()
         # print(self.poly)
 
-    def makePoly(self, reflectance):
+    def makePoly(self):
+        #print(self.edges)
+        reflectance=self.reflectance
         ver = self.verticies
         vega=[]
         for i in ver:
@@ -90,6 +93,19 @@ class model3D:
             glBegin(GL_TRIANGLES)
             for i in polygons:
                 norm = normal([verticies[i[0]], verticies[i[1]], verticies[i[2]]])
+                g1=verticies[i[0]]
+                g2=verticies[i[1]]
+                g3=verticies[i[2]]
+                n1=g1[0]+g2[0]+g3[0]-3*cent[0]
+                n2 = g1[1] + g2[1] + g3[1] - 3 * cent[1]
+                n3 = g1[2] + g2[2] + g3[2] - 3 * cent[2]
+                if angle_between(norm,[n1,n2,n3])>1.57:
+                    norm=[-norm[0],-norm[1],-norm[2]]
+                # if norm==[-100,-100,-100]:
+                #     n1=verticies[i[0]][0]-cent[0]
+                #     n2 = verticies[i[0]][1] - cent[1]
+                #     n3 = verticies[i[0]][2] - cent[2]
+                #     norm=[-n1,-n2,-n3]
                 # if rast_3d([norm[0] + verticies[i[0]][0], norm[1] + verticies[i[0]][1], norm[2] + verticies[i[0]][2]],
                 #            cent) < rast_3d(
                 #     [-norm[0] + verticies[i[0]][0], -norm[1] + verticies[i[0]][1], -norm[2]] + verticies[i[0]][2],
@@ -105,7 +121,8 @@ class model3D:
             glEnd()
         # glCallList(1)
         glEndList()
-        return list
+        self.poly=list
+        #return list
 
     def drawPoly(self):
         glPushMatrix()
