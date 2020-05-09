@@ -21,10 +21,15 @@ class mywindow(QtWidgets.QMainWindow):
         self.ui.verticalLayoutWidget.resize(x-50,y-50)
 
 
-app = QtWidgets.QApplication([])
-application = mywindow()
-application.resize(800,850)
-application.show()
-application.ui.lineEdit.setText(str(application.ui.openGLWidget.textString))
+def main():
 
-sys.exit(app.exec())
+    app = QtWidgets.QApplication([])
+    application = mywindow()
+    application.resize(800,850)
+    application.show()
+    application.ui.lineEdit.setText(str(application.ui.openGLWidget.textString))
+
+    sys.exit(app.exec())
+
+if __name__=="__main__":
+    main()

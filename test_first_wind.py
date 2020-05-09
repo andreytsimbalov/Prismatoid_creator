@@ -11,6 +11,10 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 #from gl_in_widget_logic import *
 from gl_model_creator import *
 from untitled import *
+import work_with_ui as wwu
+import  subprocess
+import os
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -22,6 +26,7 @@ class Ui_MainWindow(object):
         self.openGLWidget = GLWidget(self.centralwidget)
         self.openGLWidget.setGeometry(QtCore.QRect(189, 9, 361, 311))
         self.openGLWidget.setObjectName("openGLWidget")
+        self.openGLWidget.setMouseTracking(True)
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(10, 10, 171, 41))
         self.pushButton.setObjectName("pushButton")
@@ -55,11 +60,14 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.comboBox.addItems(self.bla())
-        self.comboBox_2.addItems(['qwe1', 'qwe2'])
+        self.comboBox_2.addItems(self.bla2())
 
         self.comboBox.currentIndexChanged.connect(self.openGLWidget.setNumOfAng)
-        # self.comboBox.currentIndexChanged.connect(self.pr)
         self.comboBox_2.currentIndexChanged.connect(self.pr)
+
+        self.pushButton.clicked.connect(self.new_m)
+        self.pushButton_2.clicked.connect(self.zxc)
+        self.pushButton_3.clicked.connect(self.run_model)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -75,12 +83,61 @@ class Ui_MainWindow(object):
 
     def bla(self):
         a=[]
-        for i in range(3,9):
-            a+=[str(i)]
+        for i in range(3,6):
+            a+=[str(i+i//5)]
+        return a
+
+    def bla2(self):
+        a = []
+        i=self.openGLWidget.number_of_layers
+        a += [str(i)]
         return a
 
     def pr(self,a):
         print(a)
+        self.openGLWidget.work_layer=a
+        self.openGLWidget.updateImage()
+
+    def asd(self,a):
+        print(a)
+        self.openGLWidget.mazs.releas_text()
+
+    def zxc(self,a):
+        print(a)
+        self.openGLWidget.mazs.add_layer()
+        print(0)
+        self.openGLWidget.work_layer += 1
+        print(self.openGLWidget.work_layer)
+        self.openGLWidget.updateImage()
+        print(2)
+        self.openGLWidget.number_of_layers+=1
+        # self.comboBox_2.removeItem(1)
+        self.comboBox_2.addItems(self.bla2())
+        self.comboBox_2.setCurrentIndex(self.openGLWidget.number_of_layers-1)
+        print(3)
+
+
+    def new_m(self,a):
+        print(a)
+        # self.comboBox_2.removeItem(1)
+        for i in range(self.openGLWidget.number_of_layers):
+            self.comboBox_2.removeItem(1)
+        self.openGLWidget.new_maza()
+
+
+    def run_model(self,a):
+        print(a)
+
+        # subprocess.Popen(['python3', 'work_with_ui.py', 'argzzz1', 'argzzz2'])
+        try:
+            self.openGLWidget.mazs.releas_text()
+            p=subprocess.Popen('python work_with_ui.py')
+            print(p)
+            # p=subprocess.Popen(['wwu.main()'])
+            # os.system('work_with_ui.py')
+            # wwu.main()
+        except:
+            print("error")
 
 
 import sys

@@ -68,9 +68,9 @@ class Ui_MainWindow(object):
         self.pushButton = QtWidgets.QPushButton(self.verticalLayoutWidget)
         self.pushButton.setObjectName("pushButton")
         self.verticalLayout_2.addWidget(self.pushButton)
-        self.pushButton_2 = QtWidgets.QPushButton(self.verticalLayoutWidget)
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.verticalLayout_2.addWidget(self.pushButton_2)
+        # self.pushButton_2 = QtWidgets.QPushButton(self.verticalLayoutWidget)
+        # self.pushButton_2.setObjectName("pushButton_2")
+        # self.verticalLayout_2.addWidget(self.pushButton_2)
         self.pushButton_3 = QtWidgets.QPushButton(self.verticalLayoutWidget)
         self.pushButton_3.setObjectName("pushButton_3")
         self.verticalLayout_2.addWidget(self.pushButton_3)
@@ -96,7 +96,7 @@ class Ui_MainWindow(object):
         self.openGLWidget.yRotationChanged.connect(self.verticalSlider_2.setValue)
         self.openGLWidget.zRotationChanged.connect(self.verticalSlider_3.setValue)
 
-        self.pushButton_2.clicked.connect(self.openGLWidget.changeFigeru)
+        # self.pushButton_2.clicked.connect(self.openGLWidget.changeFigeru)
         self.pushButton.clicked.connect(self.openGLWidget.setPaintingPolies)
         self.lineEdit.textChanged.connect(self.openGLWidget.setTextString)
         self.pushButton_3.clicked.connect(self.qwe)
@@ -107,7 +107,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Histology"))
         self.pushButton.setText(_translate("MainWindow", "Вывести объекты"))
-        self.pushButton_2.setText(_translate("MainWindow", "Изменить цвет"))
+        # self.pushButton_2.setText(_translate("MainWindow", "Изменить цвет"))
         self.pushButton_3.setText(_translate("MainWindow", "Показать пазлы"))
 
     def qwe(self):
