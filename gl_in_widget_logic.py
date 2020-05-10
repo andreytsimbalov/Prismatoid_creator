@@ -15,6 +15,7 @@ class GLWidget(QtWidgets.QOpenGLWidget):
         self.model3d = []
         self.paintingPolies = []
         self.textString = ""
+        self.miagko = False
         self.reflectance = []
         self.sloi = 0
         self.file = "text.txt"
@@ -178,6 +179,7 @@ class GLWidget(QtWidgets.QOpenGLWidget):
         glTranslated(0.0, 0.0, -10.0)
 
     def changeFigeru(self):
+        print("chabching")
         # self.model3d = self.file_reader(self.file)
         self.file_reader(self.file)
         # self.edges_priority(4, 0)
@@ -244,8 +246,9 @@ class GLWidget(QtWidgets.QOpenGLWidget):
         self.reflectance = []
         for i in range(modelCount):
             r = 1 - i / modelCount
-            g = random.random()
+            # g = random.random()
             b = i / modelCount
+            g = (1 - i / modelCount) ** 5
 
             reflectance = (r, g, b, 1.0)
             # reflectance = (random.random(), random.random(), random.random(), 1.0)
@@ -260,8 +263,14 @@ class GLWidget(QtWidgets.QOpenGLWidget):
             m += [model3D(modelGenerator(vi, sloi), reflectance)]
         # self.edges_priority(4, 0)
         self.model3d = m
-        for i in range(1, len(self.model3d)):
-            self.edges_priority(0, i)
+        if self.miagko:
+            # for i in range(1, len(self.model3d)):
+            #     print("J", i)
+            self.edges_priority_1(0)
+        else:
+            for i in range(1, len(self.model3d)):
+                print("J", i)
+                self.edges_priority(i, 0)
         for i in self.model3d:
             i.makePoly()
 
@@ -270,11 +279,12 @@ class GLWidget(QtWidgets.QOpenGLWidget):
         # print(self.model3d[i1].edges)
         # print(self.model3d[i2].edges)
         for i in range(len(self.model3d[i1].edges)):
+            print("num", i)
             n1 = [len(self.model3d[i1].verticies[i]), len(self.model3d[i1].verticies[i + 1])]
             n2 = [len(self.model3d[i2].verticies[i]), len(self.model3d[i2].verticies[i + 1])]
             v1 = self.model3d[i1].verticies[i] + self.model3d[i1].verticies[i + 1]
             v2 = self.model3d[i2].verticies[i] + self.model3d[i2].verticies[i + 1]
-            # print(len(v1))
+            print(v1)
             # print(self.model3d[i2].verticies[i],self.model3d[i2].verticies[i+1])
             # print(len(v2))
 
@@ -312,17 +322,51 @@ class GLWidget(QtWidgets.QOpenGLWidget):
                     self.model3d[i1].edges[i] = b[:n1[0] + n1[1]] + c
                     print("adddddddd")
 
-                k=n1[0]+n1[1]
-                # while k<len(self.model3d[i1].edges[i]):
-                #     j=self.model3d[i1].edges[i][k]
-                #     if j[0] == line[0]:
-                #         e = j[1]
-                #         if (e != (line[1] - 1 - n1[0]) % n1[1] + n1[0]) and (
-                #                 e != (line[1] + 1 - n1[0]) % n1[1] + n1[0]) and (e != line[1]):
-                #             self.model3d[i1].edges[i].remove(j)
-                #             print("низ верх удалён")
-                #             k-=1
-                #     k+=1
+                k = n1[0] + n1[1]
+                while k < len(self.model3d[i1].edges[i]):
+                    j = self.model3d[i1].edges[i][k]
+                    if j[0] == line[0]:
+                        e = j[1]
+                        if (e != (line[1] - 1 - n1[0]) % n1[1] + n1[0]) and (
+                                e != (line[1] + 1 - n1[0]) % n1[1] + n1[0]) and (e != line[1]):
+                            print("низ верх удалён", j)
+                            self.model3d[i1].edges[i].remove(j)
+                            # print("низ верх удалён")
+                            k -= 1
+                            # self.model3d[i1].edges[i].remove(j)
+                            # if (abs(rast_3d(v1[j[1]], v1[lj1[0]]) +
+                            #        rast_3d(v1[lj1[1]], v1[lj1[0]]) -
+                            #        rast_3d(v1[j[1]], v1[lj1[1]])) < 0.02) and (abs(rast_3d(v1[j[1]], v1[lj1[1]]) +
+                            #          rast_3d(v1[lj1[1]], v1[lj1[0]]) - rast_3d(v1[j[1]], v1[
+                            #         lj1[0]])) < 0.02):
+                            #     self.model3d[i1].edges[i].remove(j)
+                            # # print("низ верх удалён")
+                            #     k -= 1
+                    k += 1
+
+                k = n1[0] + n1[1]
+                while k < len(self.model3d[i1].edges[i]):
+                    j = self.model3d[i1].edges[i][k]
+                    if j[1] == line[1]:
+                        # print("вн", line, self.model3d[i1].edges[i])
+                        e = j[0]
+                        if (e != (line[0] - 1) % n1[0]) and (
+                                e != (line[0] + 1) % n1[0]) and (e != line[0]):
+                            print("верх низ удалён", j)
+                            self.model3d[i1].edges[i].remove(j)
+                            # self.model3d[i1].edges[i].remove(j)
+                            # print("верх низ удалён")
+                            k -= 1
+                            # if (abs(rast_3d(v1[j[1]], v1[lj1[0]]) +
+                            #        rast_3d(v1[lj1[1]], v1[lj1[0]]) -
+                            #        rast_3d(v1[j[1]], v1[lj1[1]])) < 0.02) and (abs(rast_3d(v1[j[1]], v1[lj1[1]]) +
+                            #          rast_3d(v1[lj1[1]], v1[lj1[0]]) - rast_3d(v1[j[1]], v1[
+                            #         lj1[0]])) < 0.02):
+                            #     self.model3d[i1].edges[i].remove(j)
+                            # # self.model3d[i1].edges[i].remove(j)
+                            # # print("верх низ удалён")
+                            #     k -= 1
+                    k += 1
 
                 line = [lj[1], lj1[1]]
                 if not (line in self.model3d[i1].edges[i]):
@@ -335,15 +379,29 @@ class GLWidget(QtWidgets.QOpenGLWidget):
                 # k = n1[0] + n1[1]
                 # while k < len(self.model3d[i1].edges[i]):
                 #     j = self.model3d[i1].edges[i][k]
+                #     if j[0] == line[0]:
+                #         e = j[1]
+                #         if (e != (line[1] - 1 - n1[0]) % n1[1] + n1[0]) and (
+                #                 e != (line[1] + 1 - n1[0]) % n1[1] + n1[0]) and (e != line[1]):
+                #             print("низ верх удалён",j)
+                #             self.model3d[i1].edges[i].remove(j)
+                #             # print("низ верх удалён")
+                #             k -= 1
+                #     k += 1
+                #
+                # k = n1[0] + n1[1]
+                # while k < len(self.model3d[i1].edges[i]):
+                #     j = self.model3d[i1].edges[i][k]
                 #     if j[1] == line[1]:
+                #         #print("вн",line,self.model3d[i1].edges[i])
                 #         e = j[0]
                 #         if (e != (line[0] - 1 ) % n1[0]) and (
                 #                 e != (line[0] + 1 ) % n1[0] ) and (e != line[0]):
+                #             print("верх низ удалён",j)
                 #             self.model3d[i1].edges[i].remove(j)
-                #             print("верх низ удалён")
+                #
                 #             k -= 1
                 #     k += 1
-
 
                 zam = []
                 for j in lj:
@@ -369,7 +427,118 @@ class GLWidget(QtWidgets.QOpenGLWidget):
                             c.sort()
                             self.model3d[i1].edges[i] = b[:n1[0] + n1[1]] + c
 
-                    print(i,self.model3d[i1].edges[i])
+                    print(i, self.model3d[i1].edges[i])
                     print(zam)
                     print(zamam)
         # print("POSLE", self.model3d[i1].edges)
+
+    def edges_priority_1(self, i1):
+        # print(self.model3d[i1].verticies)
+        # print(self.model3d[i1].edges)
+        # print(self.model3d[i2].edges)
+
+        for i in range(len(self.model3d[i1].edges)):
+            print("num", i)
+            n1 = [len(self.model3d[i1].verticies[i]), len(self.model3d[i1].verticies[i + 1])]
+            v1 = self.model3d[i1].verticies[i] + self.model3d[i1].verticies[i + 1]
+            self.model3d[i1].edges[i]=self.model3d[i1].edges[i][:n1[0]+n1[1]]
+
+            for i2 in range(1,len(self.model3d)):
+            # for i in range(len(self.model3d[i1].edges)):
+                print("J", i2)
+
+                # n1 = [len(self.model3d[i1].verticies[i]), len(self.model3d[i1].verticies[i + 1])]
+                n2 = [len(self.model3d[i2].verticies[i]), len(self.model3d[i2].verticies[i + 1])]
+                # v1 = self.model3d[i1].verticies[i] + self.model3d[i1].verticies[i + 1]
+                v2 = self.model3d[i2].verticies[i] + self.model3d[i2].verticies[i + 1]
+                # print(len(v1))
+                # print(self.model3d[i2].verticies[i],self.model3d[i2].verticies[i+1])
+                # print(len(v2))
+
+                lj = []
+                lk = []
+                for j in range(n1[0]):
+                    for k in range(n2[0]):
+                        if (rast(self.model3d[i1].verticies[i][j],
+                                 self.model3d[i2].verticies[i][k]) < 0.01):
+                            lj += [j]
+                            lk += [k]
+
+                lj1 = []
+                lk1 = []
+                for j in range(n1[1]):
+                    for k in range(n2[1]):
+                        if rast(self.model3d[i1].verticies[i + 1][j],
+                                self.model3d[i2].verticies[i + 1][k]) < 0.01:
+                            lj1 += [n1[0] + j]
+                            lk1 += [n2[0] + k]
+                # print(lj, lk)
+                # print(lj1, lk1)
+
+                if (lj != []) and (lj1 != []):
+
+                    for j in range(len(lk)):
+                        for k in range(len(lk1)):
+                            if [lk[j], lk1[k]] in self.model3d[i2].edges[i]:
+                                self.model3d[i1].edges[i].append([lj[j], lj1[k]])
+
+                    b = self.model3d[i1].edges[i]
+                    c = b[n1[0] + n1[1]:]
+                    c.sort()
+                    self.model3d[i1].edges[i] = b[:n1[0] + n1[1]] + c
+                    print(self.model3d[i1].edges[i])
+
+                # if len(lj) > 1 and len(lj1) > 1:
+                #     print(lj, lj1)
+                #     print(self.model3d[i1].edges[i])
+                #     for j in range(len(lj)):
+                #         for k in range(len(lj1)):
+                #             if [lj[j], lj1[k]] in self.model3d[i1].edges[i]:
+                #                 self.model3d[i1].edges[i].remove([lj[j], lj1[k]])
+                #     print(self.model3d[i1].edges[i])
+                #
+                #     for j in range(len(lk)):
+                #         for k in range(len(lk1)):
+                #             if [lk[j], lk1[k]] in self.model3d[i2].edges[i]:
+                #                 self.model3d[i1].edges[i].append([lj[j], lj1[k]])
+                #
+                #     b = self.model3d[i1].edges[i]
+                #     c = b[n1[0] + n1[1]:]
+                #     c.sort()
+                #     self.model3d[i1].edges[i] = b[:n1[0] + n1[1]] + c
+                #     print(self.model3d[i1].edges[i])
+
+
+
+
+
+
+
+                    # zam = []
+                    # for j in lj:
+                    #     for k in lj1:
+                    #         if not ([j, k] in self.model3d[i1].edges[i]):
+                    #             zam = [j, k]
+                    #             # print(zam)
+                    #             # print("DO", self.model3d[i1].edges)
+                    # if zam == []:
+                    #     print("error zam")
+                    # else:
+                    #     zamam = []
+                    #     for j in lj:
+                    #         for k in lj1:
+                    #             if j != zam[0]:
+                    #                 if k != zam[1]:
+                    #                     zamam = [j, k]
+                    #     for j in range(len(self.model3d[i1].edges[i])):
+                    #         if self.model3d[i1].edges[i][j] == zamam:
+                    #             self.model3d[i1].edges[i][j] = zam
+                    #             b = self.model3d[i1].edges[i]
+                    #             c = b[n1[0] + n1[1]:]
+                    #             c.sort()
+                    #             self.model3d[i1].edges[i] = b[:n1[0] + n1[1]] + c
+
+                    # print(i,self.model3d[i1].edges[i])
+                    # print(zam)
+                    # print(zamam)
+            # print("POSLE", self.model3d[i1].edges)

@@ -64,7 +64,8 @@ class model3D:
         # print(self.poly)
 
     def makePoly(self):
-        #print(self.edges)
+        # print(self.edges)
+
         reflectance=self.reflectance
         ver = self.verticies
         vega=[]

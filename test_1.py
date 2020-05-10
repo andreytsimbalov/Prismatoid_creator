@@ -118,8 +118,11 @@ def point_per_two_lines(k, d1, d2):  # k[0]x+k[1]y+d=0 - уравнение пр
     x = 0
     y = 0
 
-    if k[0] == 0 and k[1] == 0:
+    if (k[0] == 0) and (k[1] == 0):
         print('k=0 0')
+    else:
+        pass
+        # print("k",k)
     if k[0] == 0:
         x = -d2 / k[1]
         y = -d1 / k[1]
@@ -189,6 +192,10 @@ def polygonizer_2(v1, v2):
     for i in range(len(v1)):
         b = [v1[i]]
         b += [v1[(i - 1) % (len(v1))]]
+        if b[0]== b[1]:
+            print('b[0]',b[0])
+            print(v1)
+            print(v2)
         k = line_k(b[0], b[1])
         h = 0
         j_flag = 0
@@ -446,15 +453,20 @@ def chasovshik(a):
     j=0
     length=len(a)
     while j<length:
-        for k in range(j+1,len(a)):
+        k=j+1
+        while k<length:
             if rast(a[j],a[k])<0.01:
+                print("remove", a[k])
                 a.remove(a[k])
+                # print(a)
+                # print("remove")
                 j=-1
                 break
+            k+=1
         j+=1
         length = len(a)
 
-
+    # print("a po", a)
 
     for i in range(len(a)):
         if a[i][0] > max_x:
@@ -463,9 +475,9 @@ def chasovshik(a):
             min_x = a[i][0]
 
     for i in range(len(a)):
-        if a[i][0] == max_x:
+        if a[i][0] > max_x-0.01:
             br += [i]
-        if a[i][0] == min_x:
+        if a[i][0] < min_x+0.01:
             bl += [i]
 
     startrl = br[0]
@@ -491,7 +503,7 @@ def chasovshik(a):
     j=startrl
     j_st=-1
     v1=[0,-1]
-
+    # print("rl")
 
     while j!=finrl:
         # print(fc)
@@ -508,47 +520,38 @@ def chasovshik(a):
                 v2=[a[i][0]-a[j_st][0],a[i][1]-a[j_st][1]]
                 if (angle_between(v1,v2)<min_angle)and(v2[0]<0):
 
-                    # if angle_between(v1, v2) - min_angle<0.01:
-                    #     if ra>rast(a[i],a[j_st]):
-                    #         j=i
-                    #         ra=rast(a[i],a[j_st])
-                    # else:
-                    #     ra=100
-                    #     j = i
-                    # if abs(min_angle-angle_between(v1,v2))>0.02:
-                    #     ra=100
-                    j=i
-                    min_angle=angle_between(v1,v2)+0.01
+                    dlina=(v2[0]**2+v2[0]**2)**0.5
+                    if dlina>0.01:
+                        j=i
+                        min_angle=angle_between(v1,v2)+0.01
 
                     # print("m_a",min_angle)
         fc+=[a[j]]
 
     j = startlr
-
+    # print("lr")
+    # print(fc)
     if not (a[j] in fc):
         fc+=[a[j]]
     v1 = [0, 1]
+
+    # print("lr")
+    # print(fc)
     while j != finlr:
         # print("fcfcfc",fc)
-        ra = 100
         j_st=j
         min_angle = 3.15
         for i in range(len(a)):
             if not (a[i] in fc[1:]):
                 v2 = [a[i][0] - a[j_st][0], a[i][1] - a[j_st][1]]
                 if (angle_between(v1, v2) < min_angle)and(v2[0]>0):
-                    # if angle_between(v1, v2) - min_angle < 0.01:
-                    #     if ra > rast(a[i], a[j_st]):
-                    #         j = i
-                    #         ra = rast(a[i], a[j_st])
-                    # else:
-                    #     j = i
 
                     j = i
                     min_angle = angle_between(v1, v2)
         if j != startrl:
             fc += [a[j]]
-
+    # print("lr1")
+    # print(fc)
     # print("A", len(a))
     # print("FC", len(fc))
     if len(a)>len(fc):
@@ -559,10 +562,31 @@ def chasovshik(a):
                     if abs(rast(i,fc[j])+rast(i,fc[(j+1)%len(fc)])-rast(fc[j],fc[(j+1)%len(fc)]))<0.02:
 
                         fc=fc[:j+1]+[i]+fc[j+1:]
+                        break
                         # print(fc)
                     j+=1
     # print("A", len(a))
     # print("FC", len(fc))
+    # print("A", a)
+    # print("FC", fc)
+
+    # if len(fc)>len(a):
+    if True:
+        print(len(fc),len(a))
+        j = 0
+        length = len(fc)
+        while j < length:
+            for k in range(j + 1, length):
+                if rast(fc[j], fc[k]) < 0.01:
+
+                    print("remove fc" , fc[k])
+                    fc.remove(fc[k])
+                    # print(fc)
+                    j = -1
+                    break
+            j += 1
+            length = len(fc)
+        print(1)
     return fc
 
 

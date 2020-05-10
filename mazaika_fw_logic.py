@@ -532,7 +532,8 @@ class mazaika:
 
                 print("POINT ADDEDEDEDEEDE", c_stat, len(self.objects.lines))
 
-                if (c_stat + 1 >= len(self.objects.lines) // 2) and (a != []):
+                if (c_stat + 1 >= len(self.objects.lines) // 2) and (a != []) and not (
+                        [self.objects.lines[0][0][0], self.objects.lines[0][0][1]] in a):
                     print("POINT ADDED", c_stat, len(self.objects.lines))
                     a += [[self.objects.lines[0][0][0], self.objects.lines[0][0][1]]]
 
