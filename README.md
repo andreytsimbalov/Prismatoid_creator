@@ -1,4 +1,4 @@
-# 3D_creator
+# Prismatoid_creator
 
 Запускаемый файл test_first_wind.py
 
